@@ -75,9 +75,9 @@ It:
 ┌─────────────────────────────┐
 │       Three TXT Files       │
 │                             │
-│  football.txt               │
-│  saudi_food.txt             │
-│  artificial_intelligence.txt│
+│  Football-Clubs.txt               │
+│  Saudi_food.txt             │
+│  Football-Clubs.txt│
 └──────────────┬──────────────┘
                │
                ▼
