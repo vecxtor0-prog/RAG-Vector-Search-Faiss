@@ -1,377 +1,344 @@
-# RAG-Vector-Search-Faiss
- SDAIA Program for Developing AI Solution 
-A simple Retrieval-Augmented Generation (RAG) and semantic search project built in Google Colab.
+<div align="center">
 
-This project reads three .txt files from different fields, applies dynamic text chunking, converts the chunks into numerical embeddings using a local Sentence Transformers model, stores the vectors in a FAISS vector database, and retrieves the top 3 most relevant chunks using cosine similarity.
+# 🔎 RAG Vector Search with FAISS
 
-The project does not require an API key.
+### Local Semantic Search • Dynamic Chunking • FAISS • Cosine Similarity
 
-Project Features
+A lightweight **Retrieval-Augmented Generation (RAG)** style information retrieval project built in **Google Colab** using local embeddings and a FAISS vector database.
+Developed in Training on SDAIA Develop AI Solutions 
 
-Reads exactly three .txt files
+No API key required.
 
-Supports documents from different fields or topics
+![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python)
+![Google Colab](https://img.shields.io/badge/Google%20Colab-Notebook-orange?logo=googlecolab)
+![FAISS](https://img.shields.io/badge/Vector%20DB-FAISS-green)
+![Sentence Transformers](https://img.shields.io/badge/Embeddings-SentenceTransformers-purple)
+![API](https://img.shields.io/badge/API%20Key-Not%20Required-brightgreen)
 
-Uses Dynamic Text Chunking
+</div>
 
-Generates dense vector embeddings
+---
 
-Uses a local embedding model
+## 📌 Overview
 
-Stores embeddings in FAISS
+This project demonstrates a complete semantic retrieval pipeline using **three `.txt` files from different fields**.
 
-Saves the vector database for future use
+It:
 
-Uses cosine similarity for semantic search
+- loads three text documents
+- applies **Dynamic Text Chunking**
+- converts chunks into dense vector embeddings
+- stores vectors inside a **FAISS vector database**
+- saves the database for later use
+- accepts user questions in natural language
+- converts the query using the **same embedding model**
+- calculates **Cosine Similarity**
+- ranks the most relevant document chunks
+- returns the **Top 3 results**
+- displays the source file, chunk number, similarity score, and final answer
 
-Returns the Top 3 most relevant chunks
+---
 
-Displays:
+## ✨ Features
 
-Question
+✅ Three text files from different domains
 
-Retrieved text
+✅ Dynamic paragraph- and sentence-aware chunking
 
-Source file
+✅ Local embedding generation
 
-Chunk number
+✅ FAISS vector database
 
-Cosine similarity score
+✅ Persistent database storage
 
-Final answer
+✅ Cosine Similarity search
 
-Phase 2 does not repeat Phase 1
+✅ Top-3 semantic retrieval
 
-No OpenAI or Gemini API key is required
+✅ Source file references
 
-Technologies Used
+✅ Similarity scores
 
-Python
+✅ No Gemini API
 
-Google Colab
+✅ No OpenAI API
 
-Sentence Transformers
+✅ No API key required
 
-FAISS
+✅ Phase 2 does not rebuild Phase 1
 
-NumPy
+---
 
-Pickle
+# 🧠 System Architecture
 
-Embedding Model
+```text
+┌─────────────────────────────┐
+│       Three TXT Files       │
+│                             │
+│  football.txt               │
+│  saudi_food.txt             │
+│  artificial_intelligence.txt│
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│    Dynamic Text Chunking    │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│   Sentence Transformer      │
+│   all-MiniLM-L6-v2          │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│    384-Dimensional Vectors  │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│         FAISS Vector DB     │
+└─────────────────────────────┘
+```
 
-The project uses the following local embedding model:
+---
 
-sentence-transformers/all-MiniLM-L6-v2
+# ⚙️ Project Workflow
 
-The model converts text into 384-dimensional dense vectors.
+The project is separated into two phases.
 
-The same embedding model is used for both:
+## Phase 1 — Build the Vector Database
 
-Document chunks in Phase 1
+Phase 1 is executed when the database is created.
 
-User queries in Phase 2
-
-Using the same embedding model is important because the document vectors and query vector must exist in the same vector space.
-
-Project Workflow
-
-The project is divided into two main phases.
-
-Phase 1 — Build the Vector Database
-
-Phase 1 is used to create the vector database.
-
-It should only be executed when creating or rebuilding the database.
-
-The workflow is:
-
-Three TXT Files
-      ↓
+```text
+3 TXT Documents
+       │
+       ▼
 Load Documents
-      ↓
-Dynamic Text Chunking
-      ↓
-Sentence Transformer
-      ↓
-Generate Embeddings
-      ↓
-L2 Normalization
-      ↓
-FAISS Vector Database
-      ↓
-Save Database + Metadata
-
-Phase 1 produces two files:
-
-vector_database.faiss
-chunk_metadata.pkl
-
-These files are saved and reused during Phase 2.
-
-Phase 2 — Vector Similarity Search
-
-Phase 2 is used for every new search query.
-
-It does not repeat document loading, chunking, or document embedding generation.
-
-The workflow is:
-
-User Question
-      ↓
-Same Embedding Model
-      ↓
-Query Vector
-      ↓
-L2 Normalization
-      ↓
-FAISS Search
-      ↓
-Cosine Similarity
-      ↓
-Rank Results
-      ↓
-Top 3 Relevant Chunks
-      ↓
-Question + Answer + References
-
-Only the query is converted into an embedding during Phase 2.
-
-The existing FAISS database is loaded from:
-
-vector_database.faiss
-
-The chunk information and file references are loaded from:
-
-chunk_metadata.pkl
-
-Dynamic Text Chunking
-
-Instead of splitting documents into fixed-size pieces without considering text structure, the project uses dynamic chunking.
-
-The chunking process:
-
-Splits the document into paragraphs
-
-Keeps paragraphs together when possible
-
-Combines smaller paragraphs into larger chunks
-
-Splits very large paragraphs by sentences
-
-Keeps each chunk below a defined maximum size
-
-Example:
-
-Document
-   ↓
-Paragraph 1
-Paragraph 2
-Paragraph 3
-   ↓
+       │
+       ▼
 Dynamic Chunking
-   ↓
-Chunk 1
-Chunk 2
-Chunk 3
+       │
+       ▼
+Generate Embeddings
+       │
+       ▼
+L2 Normalization
+       │
+       ▼
+FAISS Vector Database
+       │
+       ▼
+Save Database + Metadata
+```
 
-This approach helps preserve more meaningful context compared with basic fixed-character splitting.
+### Output files
 
-Vector Embeddings
+Phase 1 produces:
 
-Each generated text chunk is passed into the Sentence Transformers model.
+```text
+vector_database.faiss
+chunk_metadata.pkl
+```
+
+These files are reused later.
+
+> **Important:** Phase 1 does not need to run again for every new question.
+
+---
+
+## Phase 2 — Semantic Vector Search
+
+Phase 2 loads the existing database and performs retrieval.
+
+```text
+User Question
+      │
+      ▼
+Same Embedding Model
+      │
+      ▼
+Query Vector
+      │
+      ▼
+L2 Normalization
+      │
+      ▼
+FAISS Search
+      │
+      ▼
+Cosine Similarity
+      │
+      ▼
+Rank Results
+      │
+      ▼
+Top 3 Relevant Chunks
+      │
+      ▼
+Answer + Sources + Scores
+```
+
+Only the **new user query** is embedded during Phase 2.
+
+The original documents are not reprocessed.
+
+---
+
+# 🤖 Embedding Model
+
+The project uses:
+
+```text
+sentence-transformers/all-MiniLM-L6-v2
+```
+
+This model converts text into **384-dimensional dense vectors**.
 
 Example:
 
-vector = model.encode(
-    text,
-    convert_to_numpy=True
-)
-
-The text is transformed into a dense numerical vector.
-
-For example:
-
+```text
 "Saudi Arabia has many traditional foods."
+```
 
-becomes a mathematical representation similar to:
+becomes a vector similar to:
 
+```text
 [0.021, -0.114, 0.087, ..., 0.042]
+```
 
-These embeddings allow the system to compare text based on semantic meaning instead of only matching exact words.
+The exact same embedding model is used for:
 
-FAISS Vector Database
+```text
+Document Chunks
+       +
+User Query
+```
 
-FAISS is used as the vector database.
+This ensures that both are represented inside the same semantic vector space.
 
-The project creates the index using:
+---
 
+# ✂️ Dynamic Text Chunking
+
+Instead of cutting documents blindly every fixed number of characters, this project uses a dynamic chunking strategy.
+
+### The chunking process
+
+```text
+Document
+   │
+   ▼
+Split into Paragraphs
+   │
+   ▼
+Combine Small Paragraphs
+   │
+   ▼
+Split Large Paragraphs
+by Sentence
+   │
+   ▼
+Final Semantic Chunks
+```
+
+This helps preserve context and keeps related information together.
+
+---
+
+# 🗄️ FAISS Vector Database
+
+FAISS is used to store and search document embeddings.
+
+The index is created using:
+
+```python
 index = faiss.IndexFlatIP(dimension)
+```
 
-The document vectors are then added to the index:
+Vectors are added using:
 
+```python
 index.add(embedding_matrix)
+```
 
-The FAISS database is saved using:
+The database is then saved:
 
+```python
 faiss.write_index(
     index,
     "vector_database.faiss"
 )
+```
 
-This allows Phase 2 to load the existing database without regenerating all document embeddings.
+The metadata is saved separately:
 
-Cosine Similarity
+```text
+chunk_metadata.pkl
+```
 
-The assignment requires cosine similarity between the user query and stored document chunks.
+Metadata contains:
 
-The project normalizes document vectors using:
+```text
+Chunk Text
+Source File
+Chunk Number
+Embedding Model
+Vector Dimension
+```
 
-faiss.normalize_L2(
-    embedding_matrix
-)
+---
 
-The query vector is also normalized:
+# 📐 Cosine Similarity
 
-faiss.normalize_L2(
-    query_vector
-)
+The project uses cosine similarity to measure semantic similarity between the user query and document chunks.
 
-After L2 normalization, inner product search using:
+The mathematical formula is:
 
+```text
+                     A · B
+Cosine Similarity = ─────────────
+                    ||A|| × ||B||
+```
+
+Both document and query vectors are normalized:
+
+```python
+faiss.normalize_L2(embedding_matrix)
+```
+
+and:
+
+```python
+faiss.normalize_L2(query_vector)
+```
+
+Because normalized vectors are used with:
+
+```python
 faiss.IndexFlatIP
+```
 
-produces cosine similarity scores.
+the returned inner-product value becomes equivalent to **Cosine Similarity**.
 
-Cosine similarity can be represented as:
+### Score interpretation
 
-cosine_similarity(A, B)
-=
-(A · B) / (||A|| × ||B||)
+```text
+Closer to 1.0  → More semantically similar
+Closer to 0.0  → Less semantically similar
+```
 
-A higher score means that the query and document chunk are more semantically similar.
+---
 
-A score closer to 1.0 generally indicates greater similarity.
+# 🔍 Top-3 Retrieval
 
-Top 3 Retrieval
-
-For each user question, FAISS searches the database and returns the three most similar chunks.
-
-Example:
-
-Question:
-What are some popular foods in Saudi Arabia?
-
-Top 3 Results:
-
-Rank #1
-Reference File: saudi_food.txt
-Chunk Number: 2
-Cosine Similarity Score: 0.8124
-
-Rank #2
-Reference File: saudi_food.txt
-Chunk Number: 4
-Cosine Similarity Score: 0.7451
-
-Rank #3
-Reference File: saudi_food.txt
-Chunk Number: 1
-Cosine Similarity Score: 0.6928
-
-The most relevant chunk is also displayed as the final answer.
-
-Project Files
-
-A possible repository structure is:
-
-rag-vector-search-faiss/
-│
-├── README.md
-│
-├── rag_vector_search.ipynb
-│
-├── sample_data/
-│   ├── football.txt
-│   ├── saudi_food.txt
-│   └── artificial_intelligence.txt
-│
-└── requirements.txt
-
-The generated database files are:
-
-vector_database.faiss
-chunk_metadata.pkl
-
-These files may also be stored locally and uploaded when running Phase 2.
-
-Installation
-
-In Google Colab, install the required libraries using:
-
-!pip install -q sentence-transformers faiss-cpu numpy
-
-Then import the required libraries:
-
-from google.colab import files
-from sentence_transformers import SentenceTransformer
-
-import numpy as np
-import faiss
-import pickle
-import re
-import os
-
-How to Run
-
-First Run
-
-Run:
-
-Cell 1
-↓
-Cell 2
-
-Then upload three .txt files.
+For every question, FAISS returns the three most semantically similar chunks.
 
 Example:
 
-football.txt
-saudi_food.txt
-artificial_intelligence.txt
-
-Phase 1 creates:
-
-vector_database.faiss
-chunk_metadata.pkl
-
-Download and keep both files.
-
-Future Searches
-
-For future searches, run:
-
-Cell 1
-↓
-Cell 3
-
-Upload only:
-
-vector_database.faiss
-chunk_metadata.pkl
-
-Then enter your question.
-
-You do not need to upload the original three documents again.
-
-You also do not need to regenerate their embeddings.
-
-Example Query
-
-What is a popular traditional food in Saudi Arabia?
-
-Example output:
-
+```text
 QUESTION
 
 What is a popular traditional food in Saudi Arabia?
@@ -381,145 +348,313 @@ TOP 3 MOST RELEVANT CHUNKS
 
 Rank #1
 Reference File: saudi_food.txt
+Chunk Number: 2
+Cosine Similarity Score: 0.8241
+
+Rank #2
+Reference File: saudi_food.txt
 Chunk Number: 1
-Cosine Similarity Score: 0.8231
+Cosine Similarity Score: 0.7618
 
-Retrieved Text:
-Kabsa is one of the most famous traditional dishes in Saudi Arabia...
+Rank #3
+Reference File: saudi_food.txt
+Chunk Number: 4
+Cosine Similarity Score: 0.6912
+```
 
+---
 
+# 💬 Example Final Result
+
+```text
+============================================================
 FINAL RESULT
+============================================================
 
 Question:
 What is a popular traditional food in Saudi Arabia?
 
 Answer:
-Kabsa is one of the most famous traditional dishes in Saudi Arabia...
+Kabsa is one of the most famous traditional dishes in
+Saudi Arabia. It is usually made with rice, chicken or lamb,
+tomatoes, onions, and spices.
 
-Assignment Requirements
+References:
 
-Requirement
+- saudi_food.txt
+  Chunk 2
+  Cosine Similarity: 0.8241
 
-Implementation
+- saudi_food.txt
+  Chunk 1
+  Cosine Similarity: 0.7618
 
-Read three .txt files
+- saudi_food.txt
+  Chunk 4
+  Cosine Similarity: 0.6912
+```
 
-Yes
+---
 
-Files from different fields
+# 📂 Repository Structure
 
-Yes
+```text
+rag-vector-search-faiss/
+│
+├── README.md
+│
+├── rag_vector_search.ipynb
+│
+├── requirements.txt
+│
+├── sample_data/
+│   ├── football.txt
+│   ├── saudi_food.txt
+│   └── artificial_intelligence.txt
+│
+└── generated/
+    ├── vector_database.faiss
+    └── chunk_metadata.pkl
+```
 
-Semantic or Dynamic Chunking
+---
 
-Dynamic Chunking
+# 🚀 Getting Started
 
-Generate embeddings
+## 1. Open the Notebook
 
-Sentence Transformers
+Open:
 
-Store embeddings in Vector DB
+```text
+rag_vector_search.ipynb
+```
 
-FAISS
+inside Google Colab.
 
-Save Vector DB
+---
 
-Yes
+## 2. Install Dependencies
 
-Phase 2 does not repeat Phase 1
+```python
+!pip install -q sentence-transformers faiss-cpu numpy
+```
 
-Yes
+---
 
-Accept natural-language query
+## 3. Run Phase 1
 
-Yes
+Run:
 
-Same embedding model for query
+```text
+Cell 1
+   ↓
+Cell 2
+```
 
-Yes
+Upload exactly three `.txt` files.
 
-Cosine Similarity
+Example:
 
-Yes
+```text
+football.txt
+saudi_food.txt
+artificial_intelligence.txt
+```
 
-Rank retrieved chunks
+Phase 1 creates:
 
-Yes
+```text
+vector_database.faiss
+chunk_metadata.pkl
+```
 
-Return Top 3 chunks
+Download and save both files.
 
-Yes
+---
 
-Display filename references
+## 4. Run Phase 2
 
-Yes
+For future searches:
 
-Display similarity scores
+```text
+Cell 1
+   ↓
+Cell 3
+```
+
+Upload:
+
+```text
+vector_database.faiss
+chunk_metadata.pkl
+```
+
+Then enter your question.
+
+Example:
+
+```text
+What is a famous Saudi traditional dish?
+```
 
-Yes
+---
 
-Print Question and Answer
+# 🔄 Phase Comparison
 
-Yes
+| Phase | Purpose | Runs |
+|---|---|---|
+| **Phase 1** | Build vector database | Once |
+| **Phase 2** | Search existing database | Every query |
+
+### Phase 1 performs
 
-API key required
+```text
+Load
+Chunk
+Embed
+Normalize
+Store
+Save
+```
 
-No
+### Phase 2 performs
 
-Important Note
+```text
+Load DB
+Embed Query
+Normalize Query
+Search
+Rank
+Return Top 3
+```
+
+---
+
+# ✅ Assignment Requirements
+
+| Requirement | Status | Implementation |
+|---|:---:|---|
+| Read 3 `.txt` files | ✅ | Google Colab upload |
+| Documents from different fields | ✅ | Any three domains |
+| Dynamic / Semantic Chunking | ✅ | Paragraph + sentence-aware |
+| Generate embeddings | ✅ | Sentence Transformers |
+| Store vectors | ✅ | FAISS |
+| Save Vector DB | ✅ | `.faiss` file |
+| Phase 2 does not repeat Phase 1 | ✅ | Existing database is loaded |
+| Accept natural-language query | ✅ | Python `input()` |
+| Same embedding model | ✅ | MiniLM |
+| Cosine Similarity | ✅ | L2 + Inner Product |
+| Rank results | ✅ | FAISS ranking |
+| Return Top 3 | ✅ | `top_k=3` |
+| File references | ✅ | Metadata |
+| Similarity scores | ✅ | Cosine scores |
+| Question + Answer | ✅ | Console output |
+| API key | ❌ Not required | Local model |
 
-This project does not use a generative AI model such as Gemini, ChatGPT, or another LLM.
+---
 
-The local Sentence Transformers model is used only to generate embeddings.
+# 🛠️ Technologies
 
-Because there is no generative language model, the final answer is taken directly from the highest-ranked retrieved chunk.
+| Technology | Purpose |
+|---|---|
+| 🐍 Python | Main programming language |
+| 📓 Google Colab | Notebook environment |
+| 🤗 Sentence Transformers | Text embeddings |
+| 🔎 FAISS | Vector database and similarity search |
+| 🔢 NumPy | Numerical vector operations |
+| 💾 Pickle | Metadata persistence |
 
-The main goal of the project is to demonstrate:
+---
 
-Dynamic chunking
+# 🔐 No API Key Required
 
-Text vectorization
+This implementation does not use:
 
-Vector database storage
+```text
+❌ OpenAI API
+❌ Gemini API
+❌ Claude API
+❌ External generation API
+```
 
-Semantic retrieval
+It uses a local Sentence Transformers model for embeddings.
 
-Cosine similarity
+This makes the project:
 
-Top-K ranking
+```text
+✅ Free to run
+✅ Simple to reproduce
+✅ Independent from API limits
+✅ Suitable for academic demonstrations
+```
 
-Document references
+---
 
-Advantages
+# ⚠️ Important Note
 
-This implementation has several advantages:
+This project does **not** use a generative LLM to rewrite or summarize the final answer.
 
-No API cost
+The final answer is taken directly from the **highest-ranked retrieved text chunk**.
 
-No API key required
+Therefore, this project primarily demonstrates the **retrieval component of a RAG system**, including:
 
-Works locally after the embedding model is available
+- chunking
+- embeddings
+- vector storage
+- semantic search
+- cosine similarity
+- ranking
+- source attribution
 
-Simple architecture
+---
 
-Fast vector search using FAISS
+# 🎯 Learning Objectives
 
-Reusable vector database
+By completing this project, you can understand how modern retrieval systems work before introducing a full generative language model.
 
-Phase 2 avoids unnecessary document processing
+Key concepts include:
 
-Supports documents from multiple fields
+```text
+Document Processing
+        ↓
+Chunking
+        ↓
+Embeddings
+        ↓
+Vector Database
+        ↓
+Similarity Search
+        ↓
+Top-K Retrieval
+        ↓
+Relevant Answer
+```
 
-Repository
+---
 
-Suggested repository name:
+# 📌 Repository Information
 
-rag-vector-search-faiss
+**Repository Name**
 
-Suggested GitHub description:
+```text
+RAG-Vector-Search-Faiss
+```
 
-RAG and semantic search pipeline using dynamic chunking, local embeddings, FAISS vector database, and cosine similarity.
+**Description**
 
-Author
+```text
+Semantic search pipeline using dynamic chunking, local embeddings,
+FAISS vector database, cosine similarity, and Top-K retrieval.
+```
 
-Created as part of an Information Retrieval and Retrieval-Augmented Generation assignment.
+---
+
+<div align="center">
+
+## ⭐ RAG Vector Search with FAISS
+
+Built with **Python • Sentence Transformers • FAISS • Google Colab**
+
+**No API key required.**
+
+</div>
