@@ -8,7 +8,8 @@ A lightweight **Retrieval-Augmented Generation (RAG)** style information retriev
 Developed in Training on SDAIA Develop AI Solutions 
 
 No API key required.
-
+This project was completed as part of training/assignment work related to SDAIA Academy.
+🔗 [Visit SDAIA Academy on GitHub](https://github.com/SDAIAAcademy)
 ![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python)
 ![Google Colab](https://img.shields.io/badge/Google%20Colab-Notebook-orange?logo=googlecolab)
 ![FAISS](https://img.shields.io/badge/Vector%20DB-FAISS-green)
