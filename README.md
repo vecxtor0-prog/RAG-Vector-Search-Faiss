@@ -7,9 +7,11 @@
 A lightweight **Retrieval-Augmented Generation (RAG)** style information retrieval project built in **Google Colab** using local embeddings and a FAISS vector database.
 Developed in Training on SDAIA Develop AI Solutions 
 
-No API key required.
 This project was completed as part of training/assignment work related to SDAIA Academy.
 🔗 [Visit SDAIA Academy on GitHub](https://github.com/SDAIAAcademy)
+
+No API key required.
+
 ![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python)
 ![Google Colab](https://img.shields.io/badge/Google%20Colab-Notebook-orange?logo=googlecolab)
 ![FAISS](https://img.shields.io/badge/Vector%20DB-FAISS-green)
